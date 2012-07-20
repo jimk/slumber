@@ -98,8 +98,8 @@ class Resource(ResourceAttributesMixin, object):
         if self._store["append_slash"] and not url.endswith("/"):
             url = url + "/"
 
-        resp = self._store["session"].request(method, url, data=data, params=params, headers={"content-type": s.get_content_type(), "accept": s.get_content_type()})
-
+        resp = self._store["session"].request(method, url, data=data, headers={"content-type": s.get_content_type(), "accept": s.get_content_type()}, **params)
+        
         if 400 <= resp.status_code <= 499:
             raise exceptions.HttpClientError("Client Error %s: %s" % (resp.status_code, url), response=resp, content=resp.content)
         elif 500 <= resp.status_code <= 599:
